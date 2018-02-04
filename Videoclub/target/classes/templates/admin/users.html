@@ -4,16 +4,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>VideoClub</title>
-<div th:replace="fragments/headerAdmin :: header-css" />
+<div th:replace="fragments/headers :: header-css" />
 
 </head>
 <body>
-	<div th:replace="fragments/headerAdmin :: header" />
+	<div th:replace="fragments/headers :: headerAdminUsers" />
 
 
 	<div class="jumbotron boxuser">
 		<div class="container">
-			<div class="headings" id="titulo">Añadir usuario</div>
+			<div class="headings" id="titulo">Lista de usuarios usuario</div>
 
 
 			<div th:if="${mensjExito != null}">
@@ -49,6 +49,15 @@
 						<td th:text="${p.email}">Correo electrónico</td>
 
 						<td th:if="${p.user} != 'admin'">
+							<form th:action="@{/admin/metodoDatosUsuario}" method="post"
+								id="form">
+								<input type="hidden" name="user" th:value="${p.user}"></input>
+								<td><button type="submit" class="btn btn-success">
+										<span class="glyphicon glyphicon-ok"></span> Modificar
+									</button></td>
+							</form>
+						</td>
+						<td th:if="${p.user} != 'admin'">
 							<form th:action="@{/admin/metodoEliminarUsuario}" method="post"
 								id="form">
 								<input type="hidden" name="user" th:value="${p.user}"></input>
@@ -58,15 +67,7 @@
 								</button>
 							</form>
 						</td>
-						<td th:if="${p.user} != 'admin'">
-							<form th:action="@{/admin/metodoDatosUsuario}" method="post"
-								id="form">
-								<input type="hidden" name="user" th:value="${p.user}"></input>
-								<td><button type="submit" class="btn btn-success">
-										<span class="glyphicon glyphicon-ok"></span> Modificar
-									</button></td>
-							</form>
-						</td>
+
 					</tr>
 					<tr></tr>
 				</table>

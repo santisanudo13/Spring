@@ -10,6 +10,7 @@ public interface PeliculaRepository extends CrudRepository<Pelicula, Long> {
 	 List<Pelicula> findById(Long id);
 	 List<Pelicula> findAll();
 
+
 	 
 	
 	} 

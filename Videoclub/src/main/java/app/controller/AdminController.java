@@ -14,7 +14,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -56,44 +55,41 @@ public class AdminController {
 	@RequestMapping("/peliculas")
 	public ModelAndView peliculas() {
 
-		List<Pelicula> pelis=getAllPelis();
-		String isRoot=adminPanel();
+		Iterable<Pelicula> pelis = peliculaRepository.findAll();
 
-		return new ModelAndView("admin/peliculas").addObject("isRoot", isRoot).addObject("pelis", pelis);
+
+		return new ModelAndView("admin/peliculas").addObject("pelis", pelis);
 	}
 
 	/**
-	 * Mapeo de direccion anhadePelicula, incluyendo objeto de autoridad del usuario.
+	 * Mapeo de direccion formulario para anhadir pelicula
 	 * @return
 	 */
 	@Secured("ROLE_ADMIN")
-	@RequestMapping("/anhadePelicula")
-	public ModelAndView anhadePelicula() {
-		String isRoot=adminPanel();
+	@RequestMapping("/metodoFormularioAnhadePelicula")
+	public ModelAndView metodoFormularioAnhadePelicula() {
 
-		return new ModelAndView("admin/anhadePelicula").addObject("isRoot", isRoot);
+		return new ModelAndView("admin/formularioAnhadePelicula");
 	}
 
-	/**
-	 * Mapeo de direccion eliminaPelicula, incluyendo objeto de autoridad del usuario.
-	 * @return
-	 */
-	@Secured("ROLE_ADMIN")
-	@RequestMapping("/eliminaPelicula")
-	public ModelAndView eliminaPelicula() {
-		String isRoot=adminPanel();
 
-		return new ModelAndView("admin/eliminaPelicula").addObject("isRoot", isRoot);
-	}
 	/**
 	 * Mapeo de direccion buscarPelicula, incluyendo objeto de autoridad del usuario.
 	 * @return
 	 */
 	@Secured("ROLE_ADMIN")
-	@RequestMapping("/buscarPelicula")
-	public ModelAndView buscarPelicula() {
-		String isRoot=adminPanel();
-		return new ModelAndView("admin/buscarPelicula").addObject("isRoot", isRoot);
+	@RequestMapping("/metodoBuscaPelicula")
+	public ModelAndView metodoBuscaPelicula(@RequestParam String nombre) {
+
+		List<Pelicula> pelis=new ArrayList<Pelicula>();
+
+		Iterable<Pelicula> all = peliculaRepository.findAll();
+		for (Pelicula p : all) {
+			if(p.getNombre().toLowerCase().contains(nombre.toLowerCase())){
+				pelis.add(p);
+			}
+		}
+		return new ModelAndView("admin/peliculas").addObject("pelis", pelis);
 	}
 
 	/**
@@ -112,55 +108,33 @@ public class AdminController {
 	 * @throws Exception
 	 */
 	@Secured("ROLE_ADMIN")
-	@RequestMapping("/processFormPeli")	
+	@RequestMapping("/metodoAnhadePelicula")	
 	public ModelAndView anhadePelicula(@RequestParam String nombre,@RequestParam String urlVideo,@RequestParam String descripcion,
 			@RequestParam String anhio,@RequestParam String director,@RequestParam String actores,@RequestParam String urlPortada,
 			@RequestParam String valoracion) throws Exception{
 
-		String isRoot=adminPanel();
+
 
 		//Comprueba campos
 		if(nombre.equals("") || urlVideo.equals("") || descripcion.equals("") || anhio.equals("") || director.equals("") || actores.equals("") || urlPortada.equals("") || valoracion.equals("") ){
-			return new ModelAndView("admin/anhadePelicula").addObject("isRoot",isRoot).addObject("mensjFallo", "Todos los campos Nombre y UrlVideo son obligatorios");
+			return new ModelAndView("admin/formularioAnhadePelicula").addObject("mensjFallo", "Todos los campos son obligatorios");
 		}
-		if(!peliculaRepository.findByNombre(nombre).isEmpty())
-			return new ModelAndView("admin/anhadePelicula").addObject("isRoot",isRoot).addObject("mensjFallo", "La pelicula ya existe");
-
-
-		// Obtiene id peli en API Rest
-		String id="";
-		/*
-		BuscaComponenteRest x = idPeliRest(nombre);
-
-
-		//Compara si el id es igual que alguno de los del API Rest
-
-
-		List<Title> titles=x.getData().getResults().getTitles();
-
-		for(Title t:titles){
-			if(t.getTitle().toLowerCase().equals(nombre.toLowerCase()))
-				id=t.getId();
-		}
-		 */
-
-
-
-		//Si se obtuvo peli, se buscan los datos de la misma.
-		PeliRest pelicula=null;
-		if(!id.equals(""))
-			pelicula= peliculaRest(id);	
-
+		List<Pelicula> pels = null;
+		pels = peliculaRepository.findByNombre(nombre);
+		if(!pels.isEmpty())
+			for(Pelicula pel : pels)
+				if(pel.getNombre().equals(nombre) && pel.getUrlVideo().equals(urlVideo) && pel.getDescripcion().equals(descripcion) && pel.getAnhio().equals(anhio) && pel.getDirector().equals(director) && pel.getActores().equals(actores) && pel.getUrlPortada().equals(urlPortada) && pel.getValoracion().equals(valoracion))
+					return new ModelAndView("admin/formularioAnhadePelicula").addObject("mensjFallo", "La pelicula ya existe");
 
 
 		//Crea la pelicula usando los datos de la API Rest si son necesarios
-		Pelicula p=createPelicula(nombre,urlVideo,descripcion,anhio,director,actores,urlPortada,valoracion,pelicula);
+		Pelicula p=new Pelicula(nombre,urlVideo,descripcion,anhio,director,actores,urlPortada,valoracion);
 		peliculaRepository.save(p);
 
 
-		List<Pelicula> pelis=getAllPelis();
+		List<Pelicula> pelis= peliculaRepository.findAll();
 
-		return new ModelAndView("admin/peliculas").addObject("isRoot",isRoot).addObject("mensjExito", "La pelicula "+p.getNombre()+" ha sido añadida satisfactoriamente").addObject("pelis", pelis);
+		return new ModelAndView("admin/peliculas").addObject("mensjExito", "La pelicula "+p.getNombre()+" ha sido añadida satisfactoriamente").addObject("pelis", pelis);
 	}
 
 
@@ -171,22 +145,41 @@ public class AdminController {
 	 */
 
 	@Secured("ROLE_ADMIN")
-	@RequestMapping("/processFormPeli2")	
-	public ModelAndView process2(@RequestParam String id){
-		//Autorizacion
-		String isRoot=adminPanel();
+	@RequestMapping("/metodoEliminarPelicula")	
+	public ModelAndView metodoEliminarPelicula(@RequestParam Long id){
+
+
 		//Si no encuentra el usuario no lo elimina
-		if(peliculaRepository.findById(Long.parseLong(id)).isEmpty()){
-			return new ModelAndView("admin/eliminaPelicula").addObject("isRoot",isRoot).addObject("mensjFallo", "La pelicula que quieres borrar no existe");
+		if(peliculaRepository.findOne(id) == null){
+			return new ModelAndView("admin/eliminaPelicula").addObject("mensjFallo", "La pelicula que quieres borrar no existe");
 		}
 		//borra la pelicula
-		peliculaRepository.delete(Long.parseLong(id));
+		peliculaRepository.delete(id);
 
-		List<Pelicula> pelis=getAllPelis();
+		List<Pelicula> pelis= peliculaRepository.findAll();
 
-		return new ModelAndView("admin/peliculas").addObject("isRoot",isRoot).addObject("mensjExito", "La pelicula  ha sido eliminada satisfactoriamente").addObject("pelis", pelis);
+		return new ModelAndView("admin/peliculas").addObject("mensjExito", "La pelicula  ha sido eliminada satisfactoriamente").addObject("pelis", pelis);
 	}
 
+
+	/**
+	 * Muestra los datos de un usuario para editarlos
+	 * @param user
+	 * @return
+	 */
+	@Secured("ROLE_ADMIN")
+	@RequestMapping("/metodoDatosPelicula")	
+	public ModelAndView metodoDatosPelicula(@RequestParam Long id) {
+		Pelicula p = null;
+		p = peliculaRepository.findOne(id);
+
+		if(p == null) {
+			List<Pelicula> peliculas = peliculaRepository.findAll();
+			return new ModelAndView("admin/peliculas").addObject("mensjFallo", "Ha habido un error con el usuario que quieres editar").addObject("pelis", peliculas);
+		}
+
+		return new ModelAndView("admin/editPeli").addObject("p", p);
+	} 
 	/**
 	 * Metodo que procesa el boton de editar una peli, lo que hara que se 
 	 * borre la peli de la base de datos y nos mande a una ventana donde volver a añadirla con los mismo o diferente valores en sus campos.
@@ -194,78 +187,56 @@ public class AdminController {
 	 * @return
 	 */
 	@Secured("ROLE_ADMIN")
-	@RequestMapping("/processFormPeliEditar")	
-	public ModelAndView processFormPeliEditar(@RequestParam String nombre) {
-
-		String isRoot=adminPanel();
+	@RequestMapping("/metodoEditarPelicula")	
+	public ModelAndView metodoEditarPelicula(@RequestParam String nombre,@RequestParam String urlVideo,@RequestParam String descripcion,@RequestParam String anhio,@RequestParam String director,@RequestParam String actores,@RequestParam String urlPortada,@RequestParam String valoracion,@RequestParam Long id) {
 
 
+		if(nombre.equals("") || urlVideo.equals("") || descripcion.equals("") || anhio.equals("") ||director.equals("") ||  actores.equals("") || urlPortada.equals("") || valoracion.equals("") || id == null )
+			return new ModelAndView("admin/editPeli").addObject("p", peliculaRepository.findOne(id)).addObject("mensjFallo", "No debe haber campos vacios");
 
-		List<Pelicula> pelis2=peliculaRepository.findByNombre(nombre);
 
-		Pelicula p=null;
-		if(!pelis2.isEmpty()){
-			p=pelis2.get(0);
+
+
+
+		Pelicula p= null;
+
+		p = peliculaRepository.findOne(id);
+		if(p == null) {
+			List<Pelicula> peliculas = peliculaRepository.findAll();
+			return new ModelAndView("admin/peliculas").addObject("mensjFallo", "Ha habido un error con el usuario que quieres editar").addObject("pelis", peliculas);
 		}
-		peliculaRepository.delete(p);
 
-		return new ModelAndView("admin/editPeli").addObject("isRoot",isRoot).addObject("p", p);
+
+		p.setNombre(nombre);
+		p.setActores(actores);
+		p.setUrlVideo(urlVideo);
+		p.setDescripcion(descripcion);
+		p.setAnhio(anhio);
+		p.setDirector(director);
+		p.setUrlPortada(urlPortada);
+		p.setValoracion(valoracion);
+
+		peliculaRepository.save(p);
+
+		List<Pelicula> pelis=getAllPelis();
+
+		return new ModelAndView("admin/peliculas").addObject("mensjExito", "La pelicula  ha sido editada satisfactoriamente").addObject("pelis", pelis);
 	}
 
 
 
-	/**
-	 * Metodo para buscar peliculas en la ventana root.
-	 * @param nombre
-	 * @return
-	 */
-	@Secured("ROLE_ADMIN")
-	@RequestMapping("/processFormPeli3")	
-	public ModelAndView process3(@RequestParam String nombre) {
-		String isRoot=adminPanel();
-
-		List<Pelicula> pelisAll=getAllPelis();
-		List<Pelicula> pelis=new ArrayList<Pelicula>();
-
-		for(Pelicula p:pelisAll){
-			if(p.getNombre().toLowerCase().contains(nombre.toLowerCase())){
-				pelis.add(p);
-			}
-		}
 
 
-		if(pelis.isEmpty())
-			return new ModelAndView("admin/buscarPelicula").addObject("mensjFallo", "La pelicula que busca no existe");
 
 
-		return new ModelAndView("admin/peliBuscada").addObject("isRoot",isRoot).addObject("pelis", pelis);
-	} 
-	/**
-	 * Metodo que toma los valores de la pelicula que estamos editando y los agrega a la base de datos.
-	 * @param nombre
-	 * @param urlVideo
-	 * @param descripcion
-	 * @param anhio
-	 * @param director
-	 * @param actores
-	 * @param urlPortada
-	 * @param valoracion
-	 * @param id
-	 * @return
-	 */
-	@Secured("ROLE_ADMIN")
-	@RequestMapping("/processFormPeliEdit")	
-	public ModelAndView process4(@RequestParam String nombre,@RequestParam String urlVideo,@RequestParam String descripcion,@RequestParam String anhio,@RequestParam String director,@RequestParam String actores,@RequestParam String urlPortada,@RequestParam String valoracion,@RequestParam String id) {
-		//autorizacion
-		String isRoot=adminPanel();
 
-		Pelicula x=new Pelicula(nombre,urlVideo,descripcion,anhio,director,actores,urlPortada,valoracion);
-		peliculaRepository.save(x);
 
-		List<Pelicula> pelis=getAllPelis();
 
-		return new ModelAndView("admin/peliculas").addObject("isRoot",isRoot).addObject("mensjExito", "La pelicula  ha sido editada satisfactoriamente").addObject("pelis", pelis);
-	} 
+
+
+
+
+
 
 
 	/**
@@ -319,14 +290,14 @@ public class AdminController {
 
 		//Comprobar todos campos completos
 		if(username.equals("") || password.equals("")||email.equals("")){
-			return new ModelAndView("admin/anhadeUser").addObject("isRoot",isRoot).addObject("mensjFallo", "Todos los campos son obligatorios");
+			return new ModelAndView("admin/formularioAnhadeUser").addObject("mensjFallo", "Todos los campos son obligatorios");
 		}
 
 		//Comprobamos que no esta ya en la base de datos.
 
 
-		if(userRepository.findByUser(username)!=null)
-			return new ModelAndView("admin/anhadeUser").addObject("isRoot",isRoot).addObject("mensjFallo", "El usuario ya existe");
+		if(userRepository.findOne(username) != null)
+			return new ModelAndView("admin/formularioAnhadeUser").addObject("mensjFallo", "El usuario ya existe");
 
 		//Creamos user y lo añadimos a la base de datos
 		GrantedAuthority[] userRoles = {
@@ -350,7 +321,7 @@ public class AdminController {
 
 	} 
 
-	
+
 	/**
 	 * Elimina user by nombre
 	 * @param nombre
@@ -363,9 +334,9 @@ public class AdminController {
 		String isRoot=adminPanel();	
 
 		User u=null;
-		u = userRepository.findByUser(user);
-		
-		
+		u = userRepository.findOne(user);
+
+
 		//borra usuario
 		userRepository.delete(u);
 
@@ -394,18 +365,18 @@ public class AdminController {
 		//Comprobamos que no esta ya en la base de datos.
 
 
-		User u = userRepository.findByUser(userOld);
+		User u = userRepository.findOne(userOld);
 		userRepository.delete(u);
-		
+
 		User uNew = new User(user,password,u.getRoles(),email);
-		
+
 		userRepository.save(uNew);
 
-		
+
 
 		return new ModelAndView("admin/users").addObject("isRoot",isRoot).addObject("mensjExito", "El usuario "+user+" ha sido editado satisfactoriamente").addObject("users", users);
 	} 
-	
+
 	/**
 	 * Muestra los datos de un usuario para editarlos
 	 * @param user
@@ -414,16 +385,16 @@ public class AdminController {
 	@Secured("ROLE_ADMIN")
 	@RequestMapping("/metodoDatosUsuario")	
 	public ModelAndView metodoDatosUser(@RequestParam String user) {
-		String isRoot=adminPanel();
 		User u = null;
-		u = userRepository.findByUser(user);
+		u = userRepository.findOne(user);
 
 		if(u == null) {
+			String isRoot=adminPanel();
 			List<User> users=getAllUsers();
 			return new ModelAndView("admin/users").addObject("isRoot",isRoot).addObject("mensjFallo", "Ha habido un error con el usuario que quieres editar").addObject("users", users);
 		}
 
-		return new ModelAndView("admin/editUser").addObject("isRoot",isRoot).addObject("u", u);
+		return new ModelAndView("admin/editUser").addObject("u", u);
 	} 
 
 
@@ -462,69 +433,9 @@ public class AdminController {
 
 
 
-	/**
-	 * Obtiene id que sea igual al nombre proporcionado, dentro de la API Rest
-	 * @param nombre
-	 * @return
-	 */
-	private BuscaComponenteRest idPeliRest(String nombre){
-		RestAdapter adapter = new RestAdapter.Builder().setEndpoint(
-				"http://imdb.wemakesites.net/api").build();
-
-		BuscaComponenteRestService service = adapter.create(BuscaComponenteRestService.class);
-
-		BuscaComponenteRest x = service.getBuscaComponenteRest(nombre);
-		return x;
-	}
-	/**
-	 * Obtiene los datos de la pelicula de la API Rest
-	 * @param id
-	 * @return
-	 */
-	private PeliRest peliculaRest(String id){
-		RestAdapter adapter2 = new RestAdapter.Builder().setEndpoint(
-				"http://imdb.wemakesites.net/api/").build();
-		PeliRestService service2 = adapter2.create(PeliRestService.class);
-		PeliRest pelicula = service2.getPeliRest(id);  
-		return pelicula;
-	}
-
-	/**
-	 * Crea la pelicula modificando los datos si los campos estan vacios usando los de la pelicula creada por la API Rest.
-	 * @param nombre
-	 * @param urlVideo
-	 * @param descripcion
-	 * @param anhio
-	 * @param director
-	 * @param actores
-	 * @param urlPortada
-	 * @param valoracion
-	 * @param pelicula
-	 * @return
-	 */
-	private Pelicula createPelicula(String nombre, String urlVideo, String descripcion, String anhio, String director,
-			String actores, String urlPortada, String valoracion, PeliRest pelicula) {
 
 
-		if(descripcion.equals("")){
-			String descr=pelicula.getData().getDescription();
-			if(descr.length()>255){
-				descripcion=descr.substring(0, 251)+"...";
-			}
 
-		}
-		if(anhio.equals(""))
-			anhio=(String) pelicula.getData().getYear();
-		if(director.equals(""))
-			director=pelicula.getData().getDirectors().toString().substring(1,pelicula.getData().getDirectors().toString().length()-1);
-		if(actores.equals(""))
-			actores=pelicula.getData().getCast().toString().substring(1,pelicula.getData().getCast().toString().length()-1);
-		if(urlPortada.equals(""))
-			urlPortada=(String) pelicula.getData().getImage();
-		if(valoracion.equals(""))
-			valoracion=(String) pelicula.getData().getReview().getRating();
-		return new Pelicula(nombre, urlVideo,descripcion,anhio,director,actores,urlPortada,valoracion);
-	}
 	/**
 	 * retorna todos los usuarios en una lista.
 	 * @return

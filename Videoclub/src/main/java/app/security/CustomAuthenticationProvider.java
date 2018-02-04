@@ -32,7 +32,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         
         
 
-        User user = userRepository.findByUser(username);
+        User user = userRepository.findOne(username);
 
         if (user == null) {
             throw new BadCredentialsException("User not found");

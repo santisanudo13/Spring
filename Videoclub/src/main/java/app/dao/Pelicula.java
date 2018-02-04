@@ -2,14 +2,21 @@ package app.dao;
 
 
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 @Entity
-public class Pelicula {
+public class Pelicula implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-		private long id;
-	
+	private long id;
+
 	private String nombre;
 	private String urlVideo; 
 	private String descripcion; 
@@ -18,18 +25,18 @@ public class Pelicula {
 	private String actores; 
 	private String urlPortada; 
 	private String valoracion; 
-	
-	
-	
-	// Default contructor (needed by SpringData)
-	 protected Pelicula() {
-	 }
-	 //Constructor
-	
-	
 
-	 
-	 public Pelicula(String nombre, String urlVideo, String descripcion, String anhio, String director, String actores,
+
+
+	// Default contructor (needed by SpringData)
+	protected Pelicula() {
+	}
+	//Constructor
+
+
+
+
+	public Pelicula(String nombre, String urlVideo, String descripcion, String anhio, String director, String actores,
 			String urlPortada, String valoracion) {
 		super();
 		this.nombre = nombre;
@@ -41,7 +48,7 @@ public class Pelicula {
 		this.urlPortada = urlPortada;
 		this.valoracion = valoracion;
 	}
-	 
+
 	public long getId() {
 		return id;
 	}
@@ -96,14 +103,14 @@ public class Pelicula {
 	public void setValoracion(String valoracion) {
 		this.valoracion = valoracion;
 	}
-	
-	
-	
 
 
 
-	
-	
-	
-	 
+
+
+
+
+
+
+
 }

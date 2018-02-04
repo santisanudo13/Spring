@@ -38,15 +38,8 @@ public class UserController {
 	@RequestMapping("/home")
 	public ModelAndView home() {
 
-		String isRoot=adminPanel();
-
-		if(peliculaRepository.findAll().isEmpty())
-			return new ModelAndView("user/home").addObject("isRoot", isRoot);
-
 		List<List> list=randomPelisHome();
-
-
-		return new ModelAndView("user/home").addObject("isRoot", isRoot).addObject("list",list);
+		return new ModelAndView("user/home").addObject("list",list);
 	}
 
 	/**
@@ -103,11 +96,17 @@ public class UserController {
 	 * @return
 	 */
 	private List<List> randomPelisHome(){
-		List<Pelicula> list = peliculaRepository.findAll();
+		Iterable<Pelicula> pelis = peliculaRepository.findAll();
+
+		List<Pelicula> list = new ArrayList<Pelicula>();
+		
+		for(Pelicula p : pelis)
+			list.add(p);
+		
 		Collections.shuffle(list, new Random(System.nanoTime()));
 
 		List<List> listDeList = new ArrayList<List>();
-		
+
 		int i = 0;
 		int counter = 0;
 		List<Pelicula> l = null;
@@ -115,18 +114,21 @@ public class UserController {
 			if(counter == 0) {
 				l = new ArrayList<Pelicula>();
 			}
-			
+
 			l.add(list.get(i));
-			
-			
+
+
 			i++;
 			counter++;
 			if(counter%4 == 0) {
 				counter = 0;
 				listDeList.add(l);
+				l = null;
 			}
 		}
-		
+		if(l != null)
+			listDeList.add(l);
+
 		return listDeList;
 
 	}
@@ -137,7 +139,7 @@ public class UserController {
 	 * @return
 	 */
 	private List<Pelicula> buscaPeli(String nombre){
-		List<Pelicula> pelisAll= peliculaRepository.findAll();
+		Iterable<Pelicula> pelisAll = peliculaRepository.findAll();
 
 		List<Pelicula> pelis=new ArrayList<Pelicula>();
 

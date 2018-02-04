@@ -4,16 +4,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>VideoClub</title>
-<div th:replace="fragments/headerAdmin :: header-css" />
+<div th:replace="fragments/headers :: header-css" />
 
 </head>
 
 <body>
-	<div th:replace="fragments/headerAdmin :: header" />
+	<div th:replace="fragments/headers :: headerAdminPeliculas" />
 
 	<div class="jumbotron boxpeliculas">
 		<div class="container">
-			<div class="headings" id="titulo">Añadir película</div>
+			<div class="headings" id="titulo">Lista de películas</div>
 			<div class="container">
 
 				<div th:if="${mensjExito != null}">
@@ -34,7 +34,7 @@
 					<tr>
 						<td><a th:href="@{/user/home}" class="btn btn-info"><span
 								class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a></td>
-						<td><a th:href="@{/admin/anhadePelicula}"><button
+						<td><a th:href="@{/admin/metodoFormularioAnhadePelicula}"><button
 									type="submit" class="btn btn-primary">
 									<span class="glyphicon glyphicon-ok"></span> Añadir
 								</button></a></td>
@@ -52,7 +52,7 @@
 					</tr>
 					<tr th:each="p : ${pelis}">
 						<td th:text="${p.nombre}">Nombre</td>
-						<td><a th:text="${p.urlVideo}"
+						<td><a
 							th:href="@{${'https://www.youtube.com/embed/' + p.urlVideo}}">URL
 								Video</a></td>
 						<td th:text="${p.descripcion}">Descripción</td>
@@ -65,14 +65,17 @@
 
 
 						<td>
-							<form th:action="@{/admin/processFormPeliEditar}" method="post"
+							<form th:action="@{/admin/metodoDatosPelicula}" method="post"
 								id="form">
-								<input type="hidden" name="nombre" th:value="${p.nombre}"></input>
+								<input type="hidden" name="id" th:value="${p.id}"></input>
 								<button type="submit" class="btn btn-success">
 									<span class="glyphicon glyphicon-ok"></span> Modificar
 								</button>
 							</form>
-							<form th:action="@{/admin/processFormPeli2}" method="post" id="form">
+						</td>
+						<td>
+							<form th:action="@{/admin/metodoEliminarPelicula}" method="post"
+								id="form">
 								<input type="hidden" name="id" th:value="${p.id}"></input>
 								<button type="submit" class="btn btn-danger">
 									<span class="glyphicons glyphicons-remove-sign"></span>

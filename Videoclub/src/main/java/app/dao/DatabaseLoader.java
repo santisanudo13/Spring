@@ -44,7 +44,7 @@ public class DatabaseLoader {
 		User user = new User("user", "user", Arrays.asList(userRoles),"user@gmail.com");
 
 		User u = null;
-		u = userRepository.findByUser("user");
+		u = userRepository.findOne("user");
 		if(u == null)
 			userRepository.save(user);
 
@@ -55,7 +55,7 @@ public class DatabaseLoader {
 		User admin = new User("admin", "admin", Arrays.asList(adminRoles),"admin@admin");
 
 		User u2 = null;
-		u2 = userRepository.findByUser("admin");
+		u2 = userRepository.findOne("admin");
 		if(u2 == null)
 			userRepository.save(admin);
 	}
