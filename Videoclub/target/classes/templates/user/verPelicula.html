@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>VideoClub</title>
+<div th:replace="fragments/headerUser :: header-css" />
+
+</head>
+
+<body>
+	<div th:replace="fragments/headerUser :: headerSinBusqueda" />
+
+
+	<a th:href="@{/user/home}"><button class="btn btn-info">
+			<span class="glyphicon glyphicon-circle-arrow-left"></span> Volver
+		</button></a>
+	<div class="row" >
+
+		<iframe width="80%" height="600"
+			th:src="${'https://www.youtube.com/embed/' + url}" frameborder="1"
+			allowfullscreen="" ></iframe>
+
+	</div>
+</body>
+</html>

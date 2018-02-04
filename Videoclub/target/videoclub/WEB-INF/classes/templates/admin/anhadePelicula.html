@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>VideoClub</title>
+<div th:replace="fragments/headerAdmin :: header-css" />
+</head>
+
+<body>
+	<div th:replace="fragments/headerAdmin :: header" />
+
+	<br />
+	<br />
+	<!--<div class="row-fluid">
+	<div class="col-sm-10 col-md-6 col-lg-4">-->
+	<div class="jumbotron boxpeli">
+		<div class="container">
+			<div class="headings" id="titulo">Añadir película</div>
+
+
+			<div th:if="${mensjExito != null}">
+
+				<div class="alert alert-success">
+					<div th:text="${mensjExito}"></div>
+				</div>
+			</div>
+			<div th:if="${mensjFallo != null}">
+				<div class="alert alert-danger">
+					<div th:text="${mensjFallo}"></div>
+				</div>
+			</div>
+
+
+			<form th:action="@{/admin/processFormPeli}" method="post" id="form">
+				<div class="table-responsive">
+					<table class="table">
+						<tr>
+							<td><label for="nombre">Nombre</label></td>
+							<td><input type="text" name="nombre" id="nombre"
+								class="form-control"></input></td>
+						</tr>
+
+						<tr>
+							<td><label for="urlVideo">Url Video</label></td>
+							<td><input type="text" name="urlVideo" id="urlVideo"
+								class="form-control"></input></td>
+						</tr>
+						<tr>
+							<td><label for="descripcion">Descripcion</label></td>
+							<td><input type="text" name="descripcion" id="descripcion"
+								class="form-control"></input></td>
+						</tr>
+						<tr>
+							<td><label for="anhio">Año</label></td>
+							<td><input type="text" name="anhio" id="anhio"
+								class="form-control"></input></td>
+						</tr>
+						<tr>
+							<td><label for="director">Director</label></td>
+							<td><input type="text" name="director" id="director"
+								class="form-control"></input></td>
+						</tr>
+						<tr>
+							<td><label for="actores">Actores</label></td>
+							<td><input type="text" name="actores" id="actores"
+								class="form-control"></input></td>
+						</tr>
+						<tr>
+							<td><label for="urlPortada">Url Portada</label></td>
+							<td><input type="text" name="urlPortada" id="urlPortada"
+								class="form-control"></input></td>
+						</tr>
+						<tr>
+							<td><label for="valoracion">Valoracion</label></td>
+							<td><input type="text" name="valoracion" id="valoracion"
+								class="form-control"></input></td>
+						</tr>
+						<tr>
+						</tr>
+						<tr>
+							<td><a th:href="@{/admin/peliculas}" class="btn btn-info"><span
+									class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a></td>
+							<td><button type="submit" class="btn btn-success">
+									<span class="glyphicon glyphicon-ok"></span> Añadir
+								</button></td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+			</form>
+		</div>
+		<!--</div>-->
+	</div>
+</body>
+</html>

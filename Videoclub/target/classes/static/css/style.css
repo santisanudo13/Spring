@@ -1,0 +1,231 @@
+﻿table.presentacion{
+  padding: 8px;
+  text-align: center;
+}
+
+body.fondo{
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #000000;
+  background-size: 100%;
+}
+
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  /*background-image: url('../imagenes/fondopeli3.jpg') no-repeat;*/
+  background-color: #000000;
+  background-size: 100%;
+}
+
+div.headings{
+  font-size: 30px;
+  border:0 solid #fff; 
+  border-bottom-width:1px;
+  padding-bottom:10px;
+  text-align: center;
+  margin-bottom: 1%;
+}
+
+div.titulos{
+  font-size: 20px;
+  border:0 solid #fff; 
+  border-bottom-width:1px;
+  padding-bottom:10px;
+  text-align: left;
+  margin-bottom: 1%;
+}
+
+label{
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+
+}
+
+.box{
+  background-color: #EDEDED;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
+  border-color:#d2d2d2;
+  border-width: 5px;
+  box-shadow: 0px 2px 10px #d6d6d6;
+  margin: 50px auto;
+  width: 300px;
+  -webki-border-radius:5px;
+  -moz-border-radius:5px;
+  color: black;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.boxform{
+  background-color: #EDEDED;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
+  border-color:#d2d2d2;
+  border-width: 5px;
+  box-shadow: 0px 2px 10px #d6d6d6;
+  margin: 30px auto;
+  width: 500px;
+  -webki-border-radius:5px;
+  -moz-border-radius:5px;
+  color: black;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.boxpeli{
+  background-color: #EDEDED;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
+  border-color:#d2d2d2;
+  border-width: 5px;
+  box-shadow: 0px 2px 10px #d6d6d6;
+  margin: 30px auto;
+  width: 500px;
+  -webki-border-radius:5px;
+  -moz-border-radius:5px;
+  color: black;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.boxuser{
+  background-color: #EDEDED;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
+  border-color:#d2d2d2;
+  border-width: 5px;
+  box-shadow: 0px 2px 10px #d6d6d6;
+  margin: 30px auto;
+  width: 1200px;
+  -webki-border-radius:5px;
+  -moz-border-radius:5px;
+  color: black;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.boxanuser{
+  background-color: #EDEDED;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
+  border-color:#d2d2d2;
+  border-width: 5px;
+  box-shadow: 0px 2px 10px #d6d6d6;
+  margin: 30px auto;
+  width: 500px;
+  -webki-border-radius:5px;
+  -moz-border-radius:5px;
+  color: black;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.boxpeliculas{
+  background-color: #EDEDED;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
+  border-color:#d2d2d2;
+  border-width: 5px;
+  box-shadow: 0px 2px 10px #d6d6d6;
+  margin: 30px auto;
+  width: 1500px;
+  -webki-border-radius:5px;
+  -moz-border-radius:5px;
+  color: black;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.buscarpeli{
+  background-color: #EDEDED;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
+  border-color:#d2d2d2;
+  border-width: 5px;
+  box-shadow: 0px 2px 10px #d6d6d6;
+  margin: 30px auto;
+  width: 1500px;
+  -webki-border-radius:5px;
+  -moz-border-radius:5px;
+  color: black;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+
+.editarpeli{
+  background-color: #EDEDED;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 20px;
+  border-color:#d2d2d2;
+  border-width: 5px;
+  box-shadow: 0px 2px 10px #d6d6d6;
+  margin: 30px auto;
+  width: 600px;
+  -webki-border-radius:5px;
+  -moz-border-radius:5px;
+  color: black;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-family: sans-serif;
+}
+/*
+@media (min-width: 568px) {
+  .container {
+    width: 550px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}*/

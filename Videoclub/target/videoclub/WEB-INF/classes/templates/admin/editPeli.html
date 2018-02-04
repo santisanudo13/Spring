@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>VideoClub</title>
+		 <div th:replace="fragments/headerAdmin :: header-css"/>
+
+</head>
+
+<body>
+		 <div th:replace="fragments/headerAdmin :: header"/>
+	
+
+	<div class="jumbotron editarpeli">
+		<div class="container">
+			<div class="headings" id="titulo">Modificar película</div>
+
+			<form th:action="@{/admin/processFormPeliEdit}" method="post" id="form">
+				<div class="table-responsive">
+					<table class="table">
+
+						<tr>	
+							<td><label for="nombre">Nombre</label></td>
+							<td><input type="text" name="nombre" id="nombre" th:value="${p.nombre}"></input></td>
+						</tr>
+						<tr>
+							<td><label for="urlVideo">Url Video</label></td>
+							<td><input type="text" name="urlVideo" id="urlVideo" th:value="${p.urlVideo}"></input></td>
+						</tr>
+						<tr>
+							<td><label for="descripcion">Descripción</label></td>
+							<td><input type="text" name="descripcion" id="descripcion" th:value="${p.descripcion}"></input></td>
+						</tr>
+						<tr>
+							<td><label for="anhio">Año</label></td>
+							<td><input type="text" name="anhio" id="anhio" th:value="${p.anhio}"></input></td>
+						</tr>
+						<tr>
+							<td><label for="director">Director</label></td>
+							<td><input type="text" name="director" id="director" th:value="${p.director}"></input></td>
+						</tr>
+						<tr>
+							<td><label for="actores">Actores</label></td>
+							<td><input type="text" name="actores" id="actores" th:value="${p.actores}"></input></td>
+						</tr>
+						<tr>
+							<td><label for="urlPortada">Url Portada</label></td>
+							<td><input type="text" name="urlPortada" id="urlPortada" th:value="${p.urlPortada}"></input></td>
+						</tr>
+						<tr>
+							<td><label for="valoracion">Valoración</label></td>
+							<td><input type="text" name="valoracion" id="valoracion" th:value="${p.valoracion}"></input></td>
+						</tr>
+						<tr>
+						</tr>
+						<tr>
+							<td>
+								<input type="hidden" th:value="${p.id}" name="id" />
+								
+							</td> 
+							<td><button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>    Modificar</button></td>
+							<td></td>
+						</tr>
+
+					</table>
+				</div>
+			</form> 
+		</div>
+	</div>
+
+</body>
+</html> 

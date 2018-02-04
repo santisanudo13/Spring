@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>VideoClub</title>
+<div th:replace="fragments/headerUser :: header-css" />
+
+</head>
+
+<body>
+	<div th:replace="fragments/headerUser :: header" />
+
+	<div class="jumbotron buscarpeli">
+		<div class="container">
+			<div class="headings" id="titulo" th:text= "'Resultados de la búsqueda para: ' + ${nombre}"></div>
+			<div class="container">
+
+				<div class="table-responsive">
+					<table class="table">
+						<td><a th:href="@{/user/home}" class="btn btn-info"><span
+								class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a></td>
+						<tr>
+							<th>Nombre</th>
+							<th>Descripción</th>
+							<th>Año</th>
+							<th>Director</th>
+							<th>Actores</th>
+							<th>URL Portada</th>
+							<th>Valoración</th>
+						</tr>
+						<tr th:each="p : ${pelis}">
+							<td th:text="${p.nombre}">Nombre</td>
+							<td th:text="${p.descripcion}">Descripción</td>
+							<td th:text="${p.anhio}">Año</td>
+							<td th:text="${p.director}">Director</td>
+							<td th:text="${p.actores}">Actores</td>
+							<td><img th:src="${p.urlPortada}" alt="" height="120"
+								width="100" /></td>
+							<td th:text="${p.valoracion}">Valoración</td>
+							<td>
+								<form th:action="@{/user/verPelicula}" method="post" id="form">
+									<input type="hidden" name="url" th:value="${p.urlVideo}"></input>
+									<input type="hidden" name="nombre" th:value="${p.nombre}"></input>
+									<button type="submit" class="btn btn-primary">
+										<span class="glyphicon glyphicon-expand"></span> Ver Trailer
+									</button>
+								</form>
+							</td>
+						</tr>
+						<tr>
+						</tr>
+						<tr>
+						</tr>
+
+
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

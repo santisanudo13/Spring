@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>VideoClub</title>
+<div th:replace="fragments/headerAdmin :: header-css" />
+
+</head>
+
+<body>
+	<div th:replace="fragments/headerAdmin :: header" />
+
+	<div class="jumbotron boxpeliculas">
+		<div class="container">
+			<div class="headings" id="titulo">Añadir película</div>
+			<div class="container">
+
+				<div th:if="${mensjExito != null}">
+
+					<div class="alert alert-success">
+						<div th:text="${mensjExito}"></div>
+					</div>
+				</div>
+				<div th:if="${mensjFallo != null}">
+					<div class="alert alert-danger">
+						<div th:text="${mensjFallo}"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="table-responsive">
+				<table class="table">
+					<tr>
+						<td><a th:href="@{/user/home}" class="btn btn-info"><span
+								class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a></td>
+						<td><a th:href="@{/admin/anhadePelicula}"><button
+									type="submit" class="btn btn-primary">
+									<span class="glyphicon glyphicon-ok"></span> Añadir
+								</button></a></td>
+					</tr>
+					<tr>
+						<th>Nombre</th>
+						<th>URL Video</th>
+						<th>Descripción</th>
+						<th>Año</th>
+						<th>Director</th>
+						<th>Actores</th>
+						<th>URL Portada</th>
+						<th>Valoración</th>
+						<th></th>
+					</tr>
+					<tr th:each="p : ${pelis}">
+						<td th:text="${p.nombre}">Nombre</td>
+						<td><a th:text="${p.urlVideo}"
+							th:href="@{${'https://www.youtube.com/embed/' + p.urlVideo}}">URL
+								Video</a></td>
+						<td th:text="${p.descripcion}">Descripción</td>
+						<td th:text="${p.anhio}">Año</td>
+						<td th:text="${p.director}">Director</td>
+						<td th:text="${p.actores}">Actores</td>
+						<td><img th:src="${p.urlPortada}" alt="" height="60"
+							width="60" /></td>
+						<td th:text="${p.valoracion}">Valoracion</td>
+
+
+						<td>
+							<form th:action="@{/admin/processFormPeliEditar}" method="post"
+								id="form">
+								<input type="hidden" name="nombre" th:value="${p.nombre}"></input>
+								<button type="submit" class="btn btn-success">
+									<span class="glyphicon glyphicon-ok"></span> Modificar
+								</button>
+							</form>
+							<form th:action="@{/admin/processFormPeli2}" method="post" id="form">
+								<input type="hidden" name="id" th:value="${p.id}"></input>
+								<button type="submit" class="btn btn-danger">
+									<span class="glyphicons glyphicons-remove-sign"></span>
+									Eliminar
+								</button>
+							</form>
+
+						</td>
+
+					</tr>
+					<tr>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

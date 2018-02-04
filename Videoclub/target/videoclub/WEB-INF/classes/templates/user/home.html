@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>VideoClub</title>
+<div th:replace="fragments/headerUser :: header-css" />
+
+</head>
+<body class="fondo">
+
+	<div th:replace="fragments/headerUser :: header" />
+
+
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table">
+				<tr th:each="l : ${list}">
+					<th th:each="p : ${l}">
+
+						<form th:action="@{/user/buscaPelicula}" method="post" id="form">
+							<input type="hidden" name="nombre" th:value="${p.nombre}" /> <input
+								type="image" th:src="${p.urlPortada}" alt="Submit Form"
+								height="268px" width="182px" />
+							<div class="caption">
+								<a th:text="${p.nombre}">Título</a>
+							</div>
+						</form>
+					</th>
+				</tr>
+				
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>VideoClub</title>
+		 <div th:replace="fragments/headerLogin :: header-css"/>
+
+</head>
+<body>
+	
+	 <div th:replace="fragments/headerLogin :: header"/>
+
+	<div class="jumbotron box" >
+		<div class="container">
+			<div class="headings">Iniciar sesión</div>
+
+			<form th:action="@{/login}" method="post">
+				<div class="form-group campos" >
+					<label>Nombre de usuario:</label><input type="text" name="username" class="form-control textbox" placeholder="Ingrese nombre de usuario"/>
+				</div>
+				<div class="form-group campos" >
+					<label>Contraseña:</label><input type="password" name="password"  class="form-control textbox" placeholder="Ingrese contraseña"/>
+				</div>
+				<input type="submit" value="Iniciar sesión" class="btn btn-primary btn-md"/><br />
+
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

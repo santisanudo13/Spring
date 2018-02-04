@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>VideoClub</title>
+<div th:replace="fragments/headerAdmin :: header-css" />
+
+</head>
+<body>
+	<div th:replace="fragments/headerAdmin :: header" />
+
+	<div class="jumbotron boxanuser">
+		<div class="container">
+			<div class="headings" id="titulo">Añadir usuario</div>
+			<div class="container container-fluid">
+				<div th:if="${mensjExito != null}">
+
+					<div class="alert alert-success">
+						<div th:text="${mensjExito}"></div>
+					</div>
+				</div>
+				<div th:if="${mensjFallo != null}">
+					<div class="alert alert-danger">
+						<div th:text="${mensjFallo}"></div>
+					</div>
+				</div>
+			</div>
+
+			<form th:action="@{/admin/metodoAnhadeUsuario}" method="post" id="form">
+				<div class="table-responsive">
+					<table class="table">
+
+						<tr>
+							<td><label for="username">Nombre de usuario</label></td>
+							<td><input type="text" name="username" id="username"
+								class="form-control"></input></td>
+						</tr>
+						<tr>
+							<td><label for="password">Contraseña</label></td>
+							<td><input type="text" name="password" id="password"
+								class="form-control"></input></td>
+						</tr>
+						<tr>
+							<td><label for="email">Correo electrónico</label></td>
+							<td><input type="text" name="email" id="email"
+								class="form-control"></input></td>
+						</tr>
+						<tr>
+						</tr>
+						<tr>
+							<td><a th:href="@{/admin/users}" class="btn btn-info"><span
+									class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a></td>
+							<td><button type="submit" class="btn btn-success">
+									<span class="glyphicon glyphicon-ok"></span> Añadir
+								</button></td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
