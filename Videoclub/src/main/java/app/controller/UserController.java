@@ -1,16 +1,12 @@
 package app.controller;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
-import java.util.*;
-
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +34,7 @@ public class UserController {
 	@RequestMapping("/home")
 	public ModelAndView home() {
 
-		List<List> list=randomPelisHome();
+		List<List<Pelicula>> list=randomPelisHome();
 		return new ModelAndView("user/home").addObject("list",list);
 	}
 
@@ -73,29 +69,12 @@ public class UserController {
 	} 
 
 
-	/**
-	 * Metodo para obetener nivel de autoridad del usuario logeado.
-	 * @return
-	 */
-	private String adminPanel(){
-		//Botones de ADMIN
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-		String isRoot="";
-		Iterator<? extends GrantedAuthority> a=auth.getAuthorities().iterator();
-
-		a.next();//ROLE_USER
-
-		if(a.hasNext())
-			isRoot = a.next().toString();
-		return isRoot;
-	}
 
 	/**
 	 * Retorna1 lista de todas las peliculas de forma aleatoria
 	 * @return
 	 */
-	private List<List> randomPelisHome(){
+	private List<List<Pelicula>> randomPelisHome(){
 		Iterable<Pelicula> pelis = peliculaRepository.findAll();
 
 		List<Pelicula> list = new ArrayList<Pelicula>();
@@ -105,7 +84,7 @@ public class UserController {
 		
 		Collections.shuffle(list, new Random(System.nanoTime()));
 
-		List<List> listDeList = new ArrayList<List>();
+		List<List<Pelicula>> listDeList = new ArrayList<List<Pelicula>>();
 
 		int i = 0;
 		int counter = 0;

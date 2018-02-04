@@ -20,11 +20,11 @@ public class Pelicula implements Serializable{
 	private String nombre;
 	private String urlVideo; 
 	private String descripcion; 
-	private String anhio; 
+	private int anhio; 
 	private String director; 
 	private String actores; 
 	private String urlPortada; 
-	private String valoracion; 
+	private int valoracion; 
 
 
 
@@ -36,8 +36,8 @@ public class Pelicula implements Serializable{
 
 
 
-	public Pelicula(String nombre, String urlVideo, String descripcion, String anhio, String director, String actores,
-			String urlPortada, String valoracion) {
+	public Pelicula(String nombre, String urlVideo, String descripcion, int anhio, String director, String actores,
+			String urlPortada, int valoracion) {
 		super();
 		this.nombre = nombre;
 		this.urlVideo = urlVideo;
@@ -73,10 +73,10 @@ public class Pelicula implements Serializable{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getAnhio() {
+	public int getAnhio() {
 		return anhio;
 	}
-	public void setAnhio(String anhio) {
+	public void setAnhio(int anhio) {
 		this.anhio = anhio;
 	}
 	public String getDirector() {
@@ -97,10 +97,10 @@ public class Pelicula implements Serializable{
 	public void setUrlPortada(String urlPortada) {
 		this.urlPortada = urlPortada;
 	}
-	public String getValoracion() {
+	public int getValoracion() {
 		return valoracion;
 	}
-	public void setValoracion(String valoracion) {
+	public void setValoracion(int valoracion) {
 		this.valoracion = valoracion;
 	}
 

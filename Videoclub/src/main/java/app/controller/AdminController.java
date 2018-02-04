@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
@@ -21,11 +20,6 @@ import app.dao.Pelicula;
 import app.dao.PeliculaRepository;
 import app.dao.User;
 import app.dao.UserRepository;
-import rest.RestClientTest.PeliRest;
-import rest.RestClientTest.PeliRestService;
-import rest.RestClientTest.buscaComp.BuscaComponenteRest;
-import rest.RestClientTest.buscaComp.BuscaComponenteRestService;
-import retrofit.RestAdapter;
 
 
 
@@ -110,20 +104,20 @@ public class AdminController {
 	@Secured("ROLE_ADMIN")
 	@RequestMapping("/metodoAnhadePelicula")	
 	public ModelAndView anhadePelicula(@RequestParam String nombre,@RequestParam String urlVideo,@RequestParam String descripcion,
-			@RequestParam String anhio,@RequestParam String director,@RequestParam String actores,@RequestParam String urlPortada,
-			@RequestParam String valoracion) throws Exception{
+			@RequestParam int anhio,@RequestParam String director,@RequestParam String actores,@RequestParam String urlPortada,
+			@RequestParam int valoracion) throws Exception{
 
 
 
 		//Comprueba campos
-		if(nombre.equals("") || urlVideo.equals("") || descripcion.equals("") || anhio.equals("") || director.equals("") || actores.equals("") || urlPortada.equals("") || valoracion.equals("") ){
+		if(nombre.equals("") || urlVideo.equals("") || descripcion.equals("") || anhio == 0 || director.equals("") || actores.equals("") || urlPortada.equals("") || valoracion == 0 ){
 			return new ModelAndView("admin/formularioAnhadePelicula").addObject("mensjFallo", "Todos los campos son obligatorios");
 		}
 		List<Pelicula> pels = null;
 		pels = peliculaRepository.findByNombre(nombre);
 		if(!pels.isEmpty())
 			for(Pelicula pel : pels)
-				if(pel.getNombre().equals(nombre) && pel.getUrlVideo().equals(urlVideo) && pel.getDescripcion().equals(descripcion) && pel.getAnhio().equals(anhio) && pel.getDirector().equals(director) && pel.getActores().equals(actores) && pel.getUrlPortada().equals(urlPortada) && pel.getValoracion().equals(valoracion))
+				if(pel.getNombre().equals(nombre) && pel.getUrlVideo().equals(urlVideo) && pel.getDescripcion().equals(descripcion) && pel.getAnhio() == (anhio) && pel.getDirector().equals(director) && pel.getActores().equals(actores) && pel.getUrlPortada().equals(urlPortada) && pel.getValoracion() == valoracion )
 					return new ModelAndView("admin/formularioAnhadePelicula").addObject("mensjFallo", "La pelicula ya existe");
 
 
@@ -188,10 +182,10 @@ public class AdminController {
 	 */
 	@Secured("ROLE_ADMIN")
 	@RequestMapping("/metodoEditarPelicula")	
-	public ModelAndView metodoEditarPelicula(@RequestParam String nombre,@RequestParam String urlVideo,@RequestParam String descripcion,@RequestParam String anhio,@RequestParam String director,@RequestParam String actores,@RequestParam String urlPortada,@RequestParam String valoracion,@RequestParam Long id) {
+	public ModelAndView metodoEditarPelicula(@RequestParam String nombre,@RequestParam String urlVideo,@RequestParam String descripcion,@RequestParam int anhio,@RequestParam String director,@RequestParam String actores,@RequestParam String urlPortada,@RequestParam int valoracion,@RequestParam Long id) {
 
 
-		if(nombre.equals("") || urlVideo.equals("") || descripcion.equals("") || anhio.equals("") ||director.equals("") ||  actores.equals("") || urlPortada.equals("") || valoracion.equals("") || id == null )
+		if(nombre.equals("") || urlVideo.equals("") || descripcion.equals("") || anhio == 0 ||director.equals("") ||  actores.equals("") || urlPortada.equals("") || valoracion == 0 || id == null )
 			return new ModelAndView("admin/editPeli").addObject("p", peliculaRepository.findOne(id)).addObject("mensjFallo", "No debe haber campos vacios");
 
 
