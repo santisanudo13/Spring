@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Peña La Cruz</title>
+<div th:replace="fragments/headers :: header-css" />
+
+</head>
+
+<body>
+	<div th:replace="fragments/headers :: headerHome" />
+
+	<div class="jumbotron boxpeliculas">
+		<div class="container">
+			<div class="headings" id="titulo">Lista de Archivos</div>
+			<div class="container">
+
+				<div th:if="${mensjExito != null}">
+
+					<div class="alert alert-success">
+						<div th:text="${mensjExito}"></div>
+					</div>
+				</div>
+				<div th:if="${mensjFallo != null}">
+					<div class="alert alert-danger">
+						<div th:text="${mensjFallo}"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="table-responsive">
+				<table class="table">
+					<tr>
+						<td><a th:href="@{/server}" class="btn btn-info"><span
+								class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a></td>
+						<td><a th:href="@{/uploadFile}"><button type="submit"
+									class="btn btn-primary">
+									<span class="glyphicon glyphicon-ok"></span> Añadir
+								</button></a></td>
+					</tr>
+					<tr>
+						<th>ID</th>
+						<th>Nombre</th>
+						<th>Descripcion</th>
+						<th>Tipo</th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr th:each="f : ${files}">
+						<td th:text="${f.id}">ID</td>
+						<td th:text="${f.nombre}">Nombre</td>
+						<td th:text="${f.descripcion}">Descripcion</td>
+						<td th:text="${f.tipo}">Tipo</td>
+
+
+
+						<td>
+							<form th:action="@{/metodoDescargarArchivo}" method="post"
+								id="form">
+								<input type="hidden" name="id" th:value="${f.id}"></input>
+								<button type="submit" class="btn btn-success">
+									<span class="glyphicon glyphicon-ok"></span> Descargar Archivo
+								</button>
+							</form>
+						</td>
+						<td>
+							<form th:action="@{/metodoEliminarArchivo}" method="post"
+								id="form">
+								<input type="hidden" name="id" th:value="${f.id}"></input>
+								<button type="submit" class="btn btn-danger">
+									<span class="glyphicons glyphicons-remove-sign"></span>
+									Eliminar Archivo
+								</button>
+							</form>
+
+						</td>
+
+					</tr>
+					<tr>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+
+
+	</div>
+
+
+</body>
+</html>

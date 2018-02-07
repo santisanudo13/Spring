@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Peña La Cruz</title>
+<div th:replace="fragments/headers :: header-css" />
+
+</head>
+
+<body>
+	<div th:replace="fragments/headers :: headerHome" />
+
+	<div class="jumbotron boxpeliculas">
+		<div class="container">
+			<div class="headings" id="titulo">Subir un Archivos</div>
+			<div class="container">
+
+				<div th:if="${mensjExito != null}">
+
+					<div class="alert alert-success">
+						<div th:text="${mensjExito}"></div>
+					</div>
+				</div>
+				<div th:if="${mensjFallo != null}">
+					<div class="alert alert-danger">
+						<div th:text="${mensjFallo}"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="table-responsive">
+				<a th:href="@{/server}" class="btn btn-info"><span
+					class="glyphicon glyphicon-circle-arrow-left"></span> Volver</a>
+			</div>
+		</div>
+
+
+
+		<div>
+			<form action="uploadSuccess.html" th:action="@{/metodoSubirArchivo}"
+				method="post" enctype="multipart/form-data">
+
+
+				<input type="file" name="file" class="glyphicon glyphicon-ok" /> <input
+					type="text" name="descripcion" class="glyphicon glyphicon-ok"
+					value="Indica una breve descripcion" />
+
+
+
+				<button type="submit" class="btn btn-success">
+					<span class="glyphicon glyphicon-ok"></span> Subir Archivo
+				</button>
+			</form>
+		</div>
+
+	</div>
+
+
+</body>
+</html>

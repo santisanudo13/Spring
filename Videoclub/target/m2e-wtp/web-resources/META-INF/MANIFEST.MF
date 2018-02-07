@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: Videoclub
+Implementation-Version: 1.0.0
+Built-By: ssm87
+Implementation-Vendor-Id: app
+Build-Jdk: 1.8.0_161
+Implementation-URL: http://projects.spring.io/spring-boot/Videoclub/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
